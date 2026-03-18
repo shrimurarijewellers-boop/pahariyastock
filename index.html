@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shri Murari Jewellers - Counter Based Stock System</title>
+    <title>Gulab Jewellers - Complete Management System</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * {
@@ -458,21 +458,60 @@
             color: #27ae60;
         }
         
-        /* Table */
-        .table-container {
+        /* Admin Tabs */
+        .admin-tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .admin-tab {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 40px;
+            background: #f0f0f0;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .admin-tab.active {
+            background: #2c3e50;
+            color: white;
+        }
+        
+        .admin-tab i {
+            margin-right: 8px;
+        }
+        
+        .admin-tab-content {
+            display: none;
+        }
+        
+        .admin-tab-content.active {
+            display: block;
+        }
+        
+        /* Summary Tables */
+        .summary-table-container {
             background: white;
             border-radius: 20px;
             padding: 25px;
             overflow-x: auto;
             box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
         }
         
-        table {
+        .summary-table {
             width: 100%;
             border-collapse: collapse;
         }
         
-        th {
+        .summary-table th {
             background: #2c3e50;
             color: white;
             padding: 15px;
@@ -481,26 +520,105 @@
             top: 0;
         }
         
-        td {
+        .summary-table td {
             padding: 12px;
             border-bottom: 1px solid #e9ecef;
             text-align: center;
         }
         
-        .action-btn {
-            background: #2c3e50;
+        .summary-table td input {
+            width: 80px;
+            padding: 8px;
+            border: 1px solid #dee2e6;
+            border-radius: 20px;
+            text-align: center;
+        }
+        
+        .summary-table .editable {
+            background-color: #fff3cd;
+            cursor: pointer;
+        }
+        
+        .summary-table .editable:hover {
+            background-color: #ffe69c;
+        }
+        
+        .summary-table .edit-input {
+            width: 100%;
+            padding: 8px;
+            border: 2px solid #667eea;
+            border-radius: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+        
+        .summary-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        
+        .summary-save-btn {
+            background: #27ae60;
             color: white;
             border: none;
-            padding: 15px 35px;
+            padding: 12px 30px;
             border-radius: 40px;
-            margin-top: 25px;
+            font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: 0.3s;
         }
         
-        .action-btn:hover {
-            background: #1a252f;
+        .summary-save-btn:hover {
+            background: #219a52;
+        }
+        
+        .summary-cancel-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 40px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .summary-cancel-btn:hover {
+            background: #c0392b;
+        }
+        
+        /* Date Selector */
+        .date-selector {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .date-selector input {
+            padding: 12px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 30px;
+            font-size: 16px;
+        }
+        
+        .date-selector button {
+            padding: 12px 30px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .date-selector button:hover {
+            background: #5a67d8;
         }
         
         /* Tally Dashboard */
@@ -570,6 +688,53 @@
             color: #999;
             margin-top: 10px;
         }
+        
+        /* Edit Mode Toggle */
+        .edit-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .edit-toggle button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .edit-toggle .enable-edit {
+            background: #f39c12;
+            color: white;
+        }
+        
+        .edit-toggle .enable-edit:hover {
+            background: #e67e22;
+        }
+        
+        .edit-toggle .disable-edit {
+            background: #95a5a6;
+            color: white;
+        }
+        
+        .edit-toggle .disable-edit:hover {
+            background: #7f8c8d;
+        }
+        
+        /* Edit Mode Styles */
+        .edit-mode .editable {
+            background-color: #fff3cd !important;
+        }
+        
+        .edit-mode .editable:hover {
+            background-color: #ffe69c !important;
+        }
+        
+        .edit-highlight {
+            background-color: #fff3cd !important;
+        }
     </style>
 </head>
 <body>
@@ -577,7 +742,7 @@
         <!-- Navigation -->
         <div class="nav">
             <div class="logo">
-                <i class="fas fa-gem"></i> SHRI MURARI JEWELLERS
+                <i class="fas fa-gem"></i> GULAB JEWELLERS
             </div>
             <div class="nav-buttons">
                 <button class="nav-btn active" onclick="showPage('staff')"><i class="fas fa-users"></i> Staff</button>
@@ -601,7 +766,7 @@
         </div>
 
         <!-- Loading Indicator -->
-        <div id="loadingIndicator" class="loading">
+        <div id="loadingIndicator" class="loading" style="display: none;">
             <i class="fas fa-spinner"></i> Loading data from Firebase...
         </div>
 
@@ -717,44 +882,107 @@
                 </div>
             </div>
             <div id="adminContent" style="display: none;">
-                <h2 style="margin-bottom: 25px;">⚖️ Daily Tally Dashboard</h2>
+                <h2 style="margin-bottom: 25px;">⚖️ Admin Control Panel</h2>
                 
-                <div class="dashboard">
-                    <div class="stats-grid">
-                        <div class="stat-card" style="background: #e3f2fd;">
-                            <h4>Staff Total Sales</h4>
-                            <div class="number" id="staffTotal">0</div>
-                        </div>
-                        <div class="stat-card" style="background: #d4edda;">
-                            <h4>Manager Total Diff</h4>
-                            <div class="number" id="managerTotal">0</div>
-                        </div>
-                        <div class="stat-card" style="background: #fff3e0;">
-                            <h4>Accountant Diff</h4>
-                            <div class="number" id="accDiff">0</div>
-                        </div>
-                        <div class="stat-card" style="background: #f8d7da;">
-                            <h4>Variance</h4>
-                            <div class="number" id="variance">0</div>
-                        </div>
-                    </div>
-                    
-                    <h3>Staff Sales by Counter</h3>
-                    <div class="sales-grid" id="staffBreakdown"></div>
-                    
-                    <h3>Manager Differences by Counter</h3>
-                    <div class="sales-grid" id="managerBreakdown"></div>
-                    
-                    <div class="result-box" id="tallyResult">
-                        Loading...
-                    </div>
-                    
-                    <div class="timestamp" id="lastUpdated"></div>
+                <!-- Admin Tabs -->
+                <div class="admin-tabs">
+                    <button class="admin-tab active" onclick="showAdminTab('tally')">
+                        <i class="fas fa-chart-line"></i> Tally Dashboard
+                    </button>
+                    <button class="admin-tab" onclick="showAdminTab('summary')">
+                        <i class="fas fa-table"></i> Detailed Summary
+                    </button>
+                    <button class="admin-tab" onclick="showAdminTab('edit')">
+                        <i class="fas fa-edit"></i> Edit Entries
+                    </button>
                 </div>
                 
-                <button class="action-btn" onclick="refreshTally()" style="margin-top: 25px;">
-                    <i class="fas fa-sync-alt"></i> Refresh Tally
-                </button>
+                <!-- Tally Dashboard Tab -->
+                <div id="tallyTab" class="admin-tab-content active">
+                    <div class="dashboard">
+                        <div class="stats-grid">
+                            <div class="stat-card" style="background: #e3f2fd;">
+                                <h4>Staff Total Sales</h4>
+                                <div class="number" id="staffTotal">0</div>
+                            </div>
+                            <div class="stat-card" style="background: #d4edda;">
+                                <h4>Manager Total Diff</h4>
+                                <div class="number" id="managerTotal">0</div>
+                            </div>
+                            <div class="stat-card" style="background: #fff3e0;">
+                                <h4>Accountant Diff</h4>
+                                <div class="number" id="accDiff">0</div>
+                            </div>
+                            <div class="stat-card" style="background: #f8d7da;">
+                                <h4>Variance</h4>
+                                <div class="number" id="variance">0</div>
+                            </div>
+                        </div>
+                        
+                        <h3>Staff Sales by Counter</h3>
+                        <div class="sales-grid" id="staffBreakdown"></div>
+                        
+                        <h3>Manager Differences by Counter</h3>
+                        <div class="sales-grid" id="managerBreakdown"></div>
+                        
+                        <div class="result-box" id="tallyResult">
+                            Loading...
+                        </div>
+                        
+                        <div class="timestamp" id="lastUpdated"></div>
+                    </div>
+                    
+                    <button class="action-btn" onclick="refreshTally()" style="margin-top: 25px;">
+                        <i class="fas fa-sync-alt"></i> Refresh Tally
+                    </button>
+                </div>
+                
+                <!-- Detailed Summary Tab -->
+                <div id="summaryTab" class="admin-tab-content">
+                    <div class="date-selector">
+                        <label>Select Date:</label>
+                        <input type="date" id="summaryDate">
+                        <button onclick="loadSummaryData()"><i class="fas fa-search"></i> Load Data</button>
+                    </div>
+                    
+                    <h3>Staff Entries - Counter Wise</h3>
+                    <div class="summary-table-container" id="staffSummaryTable"></div>
+                    
+                    <h3>Manager Entries - Counter Totals</h3>
+                    <div class="summary-table-container" id="managerSummaryTable"></div>
+                    
+                    <h3>Accountant Entries</h3>
+                    <div class="summary-table-container" id="accountantSummaryTable"></div>
+                </div>
+                
+                <!-- Edit Entries Tab -->
+                <div id="editTab" class="admin-tab-content">
+                    <div class="date-selector">
+                        <label>Select Date:</label>
+                        <input type="date" id="editDate">
+                        <button onclick="loadEditData()"><i class="fas fa-search"></i> Load Data</button>
+                    </div>
+                    
+                    <div class="edit-toggle">
+                        <button class="enable-edit" onclick="enableEditMode()">
+                            <i class="fas fa-pencil-alt"></i> Enable Edit Mode
+                        </button>
+                        <button class="disable-edit" onclick="disableEditMode()" style="display: none;">
+                            <i class="fas fa-times"></i> Disable Edit Mode
+                        </button>
+                    </div>
+                    
+                    <div id="editTables"></div>
+                    
+                    <div class="summary-actions" id="editActions" style="display: none;">
+                        <button class="summary-save-btn" onclick="saveAllEdits()">
+                            <i class="fas fa-save"></i> Save All Changes
+                        </button>
+                        <button class="summary-cancel-btn" onclick="cancelEdit()">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -808,6 +1036,14 @@
         window.currentManagerSession = 'morning';
         window.currentAccountantSession = 'morning';
         window.selectedCounter = null;
+        window.editMode = false;
+        window.currentEditDate = new Date().toISOString().split('T')[0];
+        window.editedValues = {}; // Store edited values temporarily
+
+        // Set today's date in date inputs
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('summaryDate').value = today;
+        document.getElementById('editDate').value = today;
 
         // Update date and time
         function updateDateTime() {
@@ -847,6 +1083,21 @@
             }
         };
 
+        // Admin tab switching
+        window.showAdminTab = function(tab) {
+            document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.admin-tab-content').forEach(c => c.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(tab + 'Tab').classList.add('active');
+            
+            if (tab === 'summary') {
+                loadSummaryData();
+            } else if (tab === 'edit') {
+                loadEditData();
+            }
+        };
+
         // Staff Functions
         window.showStaffSelection = function() {
             document.getElementById('staffCounterSelection').style.display = 'block';
@@ -857,6 +1108,7 @@
         window.backToStaffSelection = function() {
             document.getElementById('staffCounterSelection').style.display = 'block';
             document.getElementById('staffCounterEntry').style.display = 'none';
+            window.selectedCounter = null;
         };
 
         window.renderStaffCounterGrid = function() {
@@ -896,6 +1148,8 @@
                 renderStaffCounterGrid();
             } else if (window.selectedCounter) {
                 renderStaffEntryForm(window.selectedCounter);
+                const sessionText = session === 'morning' ? 'Morning (Opening)' : 'Evening (Closing)';
+                document.getElementById('selectedCounterSession').textContent = sessionText;
             }
         };
 
@@ -1022,9 +1276,12 @@
             
             // Add event listeners to update totals
             for (let c = 1; c <= 6; c++) {
-                document.getElementById(`mgr-${session}-counter${c}`).addEventListener('input', function() {
-                    document.getElementById(`mgr-total-${session}-${c}`).textContent = this.value || 0;
-                });
+                const input = document.getElementById(`mgr-${session}-counter${c}`);
+                if (input) {
+                    input.addEventListener('input', function() {
+                        document.getElementById(`mgr-total-${session}-${c}`).textContent = this.value || 0;
+                    });
+                }
             }
         };
 
@@ -1222,6 +1479,385 @@
             `;
             
             document.getElementById('lastUpdated').innerHTML = 'Last updated: ' + new Date().toLocaleString();
+        };
+
+        // Load summary data for selected date
+        window.loadSummaryData = async function() {
+            const selectedDate = document.getElementById('summaryDate').value;
+            
+            try {
+                document.getElementById('loadingIndicator').style.display = 'block';
+                
+                // Load staff summary
+                let staffHtml = '<table class="summary-table"><tr><th>Counter</th><th>Item</th><th>Morning (Opening)</th><th>Evening (Closing)</th><th>Sales</th></tr>';
+                
+                for (let c = 1; c <= 6; c++) {
+                    const morningRef = doc(db, 'staff', selectedDate, 'counter' + c, 'morning');
+                    const eveningRef = doc(db, 'staff', selectedDate, 'counter' + c, 'evening');
+                    
+                    const morningDoc = await getDoc(morningRef);
+                    const eveningDoc = await getDoc(eveningRef);
+                    
+                    const morningData = morningDoc.exists() ? morningDoc.data().items : {};
+                    const eveningData = eveningDoc.exists() ? eveningDoc.data().items : {};
+                    
+                    counterItems[c].forEach(item => {
+                        const morning = morningData[item]?.value || 0;
+                        const evening = eveningData[item]?.value || 0;
+                        const sales = morning - evening;
+                        
+                        staffHtml += `<tr>
+                            <td>${c}</td>
+                            <td>${item}</td>
+                            <td>${morning}</td>
+                            <td>${evening}</td>
+                            <td>${sales}</td>
+                        </tr>`;
+                    });
+                }
+                staffHtml += '</table>';
+                document.getElementById('staffSummaryTable').innerHTML = staffHtml;
+                
+                // Load manager summary
+                const managerMorningRef = doc(db, 'manager', selectedDate, 'data', 'morning');
+                const managerEveningRef = doc(db, 'manager', selectedDate, 'data', 'evening');
+                
+                const managerMorningDoc = await getDoc(managerMorningRef);
+                const managerEveningDoc = await getDoc(managerEveningRef);
+                
+                const managerMorning = managerMorningDoc.exists() ? managerMorningDoc.data().totals : {};
+                const managerEvening = managerEveningDoc.exists() ? managerEveningDoc.data().totals : {};
+                
+                let managerHtml = '<table class="summary-table"><tr><th>Counter</th><th>Morning (Opening)</th><th>Evening (Closing)</th><th>Difference</th></tr>';
+                
+                for (let c = 1; c <= 6; c++) {
+                    const morning = managerMorning[`counter${c}`] || 0;
+                    const evening = managerEvening[`counter${c}`] || 0;
+                    const diff = morning - evening;
+                    
+                    managerHtml += `<tr>
+                        <td>Counter ${c}</td>
+                        <td>${morning}</td>
+                        <td>${evening}</td>
+                        <td>${diff}</td>
+                    </tr>`;
+                }
+                managerHtml += '</table>';
+                document.getElementById('managerSummaryTable').innerHTML = managerHtml;
+                
+                // Load accountant summary
+                const accMorningRef = doc(db, 'accountant', selectedDate, 'totals', 'morning');
+                const accEveningRef = doc(db, 'accountant', selectedDate, 'totals', 'evening');
+                
+                const accMorningDoc = await getDoc(accMorningRef);
+                const accEveningDoc = await getDoc(accEveningRef);
+                
+                const accMorning = accMorningDoc.exists() ? accMorningDoc.data().value : 0;
+                const accEvening = accEveningDoc.exists() ? accEveningDoc.data().value : 0;
+                const accDiff = accMorning - accEvening;
+                
+                let accHtml = '<table class="summary-table"><tr><th>Session</th><th>Value</th></tr>';
+                accHtml += `<tr><td>Morning (Opening)</td><td>${accMorning}</td></tr>`;
+                accHtml += `<tr><td>Evening (Closing)</td><td>${accEvening}</td></tr>`;
+                accHtml += `<tr><td>Difference</td><td>${accDiff}</td></tr>`;
+                accHtml += '</table>';
+                document.getElementById('accountantSummaryTable').innerHTML = accHtml;
+                
+                document.getElementById('loadingIndicator').style.display = 'none';
+                
+            } catch (error) {
+                console.error('Error loading summary:', error);
+                document.getElementById('loadingIndicator').innerHTML = 'Error loading data';
+                setTimeout(() => {
+                    document.getElementById('loadingIndicator').style.display = 'none';
+                }, 2000);
+            }
+        };
+
+        // Load edit data
+        window.loadEditData = async function() {
+            window.currentEditDate = document.getElementById('editDate').value;
+            
+            try {
+                document.getElementById('loadingIndicator').style.display = 'block';
+                
+                let html = '<h3>Staff Entries (Click on any value to edit)</h3>';
+                html += '<div class="summary-table-container">';
+                html += '<table class="summary-table" id="editStaffTable"><tr><th>Counter</th><th>Item</th><th>Morning (Opening)</th><th>Evening (Closing)</th></tr>';
+                
+                for (let c = 1; c <= 6; c++) {
+                    const morningRef = doc(db, 'staff', window.currentEditDate, 'counter' + c, 'morning');
+                    const eveningRef = doc(db, 'staff', window.currentEditDate, 'counter' + c, 'evening');
+                    
+                    const morningDoc = await getDoc(morningRef);
+                    const eveningDoc = await getDoc(eveningRef);
+                    
+                    const morningData = morningDoc.exists() ? morningDoc.data().items : {};
+                    const eveningData = eveningDoc.exists() ? eveningDoc.data().items : {};
+                    
+                    counterItems[c].forEach(item => {
+                        const morning = morningData[item]?.value || 0;
+                        const evening = eveningData[item]?.value || 0;
+                        
+                        html += `<tr>
+                            <td>${c}</td>
+                            <td>${item}</td>
+                            <td class="editable" data-type="staff" data-counter="${c}" data-item="${item}" data-session="morning" onclick="makeEditable(this)">${morning}</td>
+                            <td class="editable" data-type="staff" data-counter="${c}" data-item="${item}" data-session="evening" onclick="makeEditable(this)">${evening}</td>
+                        </tr>`;
+                    });
+                }
+                html += '</table></div>';
+                
+                // Manager edit table
+                html += '<h3 style="margin-top: 30px;">Manager Entries</h3>';
+                html += '<div class="summary-table-container">';
+                html += '<table class="summary-table" id="editManagerTable"><tr><th>Counter</th><th>Morning (Opening)</th><th>Evening (Closing)</th></tr>';
+                
+                const managerMorningRef = doc(db, 'manager', window.currentEditDate, 'data', 'morning');
+                const managerEveningRef = doc(db, 'manager', window.currentEditDate, 'data', 'evening');
+                
+                const managerMorningDoc = await getDoc(managerMorningRef);
+                const managerEveningDoc = await getDoc(managerEveningRef);
+                
+                const managerMorning = managerMorningDoc.exists() ? managerMorningDoc.data().totals : {};
+                const managerEvening = managerEveningDoc.exists() ? managerEveningDoc.data().totals : {};
+                
+                for (let c = 1; c <= 6; c++) {
+                    const morning = managerMorning[`counter${c}`] || 0;
+                    const evening = managerEvening[`counter${c}`] || 0;
+                    
+                    html += `<tr>
+                        <td>Counter ${c}</td>
+                        <td class="editable" data-type="manager" data-counter="${c}" data-session="morning" onclick="makeEditable(this)">${morning}</td>
+                        <td class="editable" data-type="manager" data-counter="${c}" data-session="evening" onclick="makeEditable(this)">${evening}</td>
+                    </tr>`;
+                }
+                html += '</table></div>';
+                
+                // Accountant edit table
+                html += '<h3 style="margin-top: 30px;">Accountant Entries</h3>';
+                html += '<div class="summary-table-container">';
+                html += '<table class="summary-table" id="editAccountantTable"><tr><th>Session</th><th>Value</th></tr>';
+                
+                const accMorningRef = doc(db, 'accountant', window.currentEditDate, 'totals', 'morning');
+                const accEveningRef = doc(db, 'accountant', window.currentEditDate, 'totals', 'evening');
+                
+                const accMorningDoc = await getDoc(accMorningRef);
+                const accEveningDoc = await getDoc(accEveningRef);
+                
+                const accMorning = accMorningDoc.exists() ? accMorningDoc.data().value : 0;
+                const accEvening = accEveningDoc.exists() ? accEveningDoc.data().value : 0;
+                
+                html += `<tr>
+                    <td>Morning (Opening)</td>
+                    <td class="editable" data-type="accountant" data-session="morning" onclick="makeEditable(this)">${accMorning}</td>
+                </tr>`;
+                html += `<tr>
+                    <td>Evening (Closing)</td>
+                    <td class="editable" data-type="accountant" data-session="evening" onclick="makeEditable(this)">${accEvening}</td>
+                </tr>`;
+                html += '</table></div>';
+                
+                document.getElementById('editTables').innerHTML = html;
+                document.getElementById('loadingIndicator').style.display = 'none';
+                
+            } catch (error) {
+                console.error('Error loading edit data:', error);
+                document.getElementById('loadingIndicator').innerHTML = 'Error loading data';
+                setTimeout(() => {
+                    document.getElementById('loadingIndicator').style.display = 'none';
+                }, 2000);
+            }
+        };
+
+        // Make cell editable
+        window.makeEditable = function(cell) {
+            if (!window.editMode) {
+                alert('Please enable Edit Mode first');
+                return;
+            }
+            
+            const currentValue = cell.textContent;
+            const dataType = cell.getAttribute('data-type');
+            const counter = cell.getAttribute('data-counter');
+            const item = cell.getAttribute('data-item');
+            const session = cell.getAttribute('data-session');
+            
+            // Create input element
+            const input = document.createElement('input');
+            input.type = 'number';
+            input.value = currentValue;
+            input.className = 'edit-input';
+            input.setAttribute('data-original-value', currentValue);
+            input.setAttribute('data-type', dataType);
+            input.setAttribute('data-counter', counter);
+            input.setAttribute('data-item', item);
+            input.setAttribute('data-session', session);
+            
+            // Clear cell and append input
+            cell.innerHTML = '';
+            cell.appendChild(input);
+            input.focus();
+            
+            // Handle blur event
+            input.onblur = function() {
+                const newValue = this.value;
+                const originalValue = this.getAttribute('data-original-value');
+                
+                if (newValue !== originalValue) {
+                    // Store the edited value
+                    const key = `${dataType}_${counter}_${item}_${session}`;
+                    window.editedValues[key] = {
+                        type: dataType,
+                        counter: counter,
+                        item: item,
+                        session: session,
+                        value: parseInt(newValue) || 0
+                    };
+                    
+                    // Update cell with new value
+                    cell.innerHTML = newValue;
+                    cell.classList.add('edit-highlight');
+                } else {
+                    cell.innerHTML = originalValue;
+                }
+            };
+            
+            // Handle Enter key
+            input.onkeypress = function(e) {
+                if (e.key === 'Enter') {
+                    this.blur();
+                }
+            };
+        };
+
+        // Enable edit mode
+        window.enableEditMode = function() {
+            window.editMode = true;
+            window.editedValues = {}; // Reset edited values
+            document.querySelector('.enable-edit').style.display = 'none';
+            document.querySelector('.disable-edit').style.display = 'inline-block';
+            document.getElementById('editActions').style.display = 'flex';
+            
+            // Add edit-mode class to container for styling
+            document.getElementById('editTables').classList.add('edit-mode');
+        };
+
+        // Disable edit mode
+        window.disableEditMode = function() {
+            window.editMode = false;
+            window.editedValues = {}; // Clear edited values
+            document.querySelector('.enable-edit').style.display = 'inline-block';
+            document.querySelector('.disable-edit').style.display = 'none';
+            document.getElementById('editActions').style.display = 'none';
+            
+            // Remove edit-mode class
+            document.getElementById('editTables').classList.remove('edit-mode');
+            
+            // Reload data to revert changes
+            loadEditData();
+        };
+
+        // Cancel edit
+        window.cancelEdit = function() {
+            if (confirm('Discard all changes?')) {
+                disableEditMode();
+            }
+        };
+
+        // Save all edits
+        window.saveAllEdits = async function() {
+            if (Object.keys(window.editedValues).length === 0) {
+                alert('No changes to save');
+                return;
+            }
+            
+            try {
+                document.getElementById('loadingIndicator').style.display = 'block';
+                
+                // Group edits by type
+                const staffEdits = {};
+                const managerEdits = { morning: {}, evening: {} };
+                const accountantEdits = { morning: null, evening: null };
+                
+                Object.values(window.editedValues).forEach(edit => {
+                    if (edit.type === 'staff') {
+                        const key = `counter${edit.counter}`;
+                        if (!staffEdits[key]) staffEdits[key] = {};
+                        if (!staffEdits[key][edit.session]) staffEdits[key][edit.session] = {};
+                        staffEdits[key][edit.session][edit.item] = { value: edit.value };
+                    } else if (edit.type === 'manager') {
+                        if (edit.session === 'morning') {
+                            managerEdits.morning[`counter${edit.counter}`] = edit.value;
+                        } else {
+                            managerEdits.evening[`counter${edit.counter}`] = edit.value;
+                        }
+                    } else if (edit.type === 'accountant') {
+                        accountantEdits[edit.session] = edit.value;
+                    }
+                });
+                
+                // Save staff edits
+                for (const [counterKey, sessions] of Object.entries(staffEdits)) {
+                    for (const [session, items] of Object.entries(sessions)) {
+                        const counterNum = counterKey.replace('counter', '');
+                        const docRef = doc(db, 'staff', window.currentEditDate, counterKey, session);
+                        
+                        // Get existing data
+                        const existingDoc = await getDoc(docRef);
+                        let existingItems = existingDoc.exists() ? existingDoc.data().items : {};
+                        
+                        // Merge with edits
+                        const updatedItems = { ...existingItems, ...items };
+                        
+                        await setDoc(docRef, {
+                            items: updatedItems,
+                            timestamp: serverTimestamp()
+                        });
+                    }
+                }
+                
+                // Save manager edits
+                if (Object.keys(managerEdits.morning).length > 0) {
+                    const morningRef = doc(db, 'manager', window.currentEditDate, 'data', 'morning');
+                    const existingMorningDoc = await getDoc(morningRef);
+                    let existingMorning = existingMorningDoc.exists() ? existingMorningDoc.data().totals || {} : {};
+                    const updatedMorning = { ...existingMorning, ...managerEdits.morning };
+                    await setDoc(morningRef, { totals: updatedMorning, timestamp: serverTimestamp() });
+                }
+                
+                if (Object.keys(managerEdits.evening).length > 0) {
+                    const eveningRef = doc(db, 'manager', window.currentEditDate, 'data', 'evening');
+                    const existingEveningDoc = await getDoc(eveningRef);
+                    let existingEvening = existingEveningDoc.exists() ? existingEveningDoc.data().totals || {} : {};
+                    const updatedEvening = { ...existingEvening, ...managerEdits.evening };
+                    await setDoc(eveningRef, { totals: updatedEvening, timestamp: serverTimestamp() });
+                }
+                
+                // Save accountant edits
+                if (accountantEdits.morning !== null) {
+                    const morningRef = doc(db, 'accountant', window.currentEditDate, 'totals', 'morning');
+                    await setDoc(morningRef, { value: accountantEdits.morning, timestamp: serverTimestamp() });
+                }
+                
+                if (accountantEdits.evening !== null) {
+                    const eveningRef = doc(db, 'accountant', window.currentEditDate, 'totals', 'evening');
+                    await setDoc(eveningRef, { value: accountantEdits.evening, timestamp: serverTimestamp() });
+                }
+                
+                document.getElementById('loadingIndicator').style.display = 'none';
+                alert('All changes saved successfully!');
+                
+                // Clear edits and disable mode
+                window.editedValues = {};
+                disableEditMode();
+                
+            } catch (error) {
+                console.error('Error saving edits:', error);
+                document.getElementById('loadingIndicator').style.display = 'none';
+                alert('Error saving changes: ' + error.message);
+            }
         };
 
         // Load all data
